@@ -18,7 +18,7 @@
 
 import numpy as np
 from scipy import misc
-from imp import reload
+from importlib import reload
 from labfuns import *
 import random
 
@@ -68,9 +68,13 @@ def mlParams(X, labels, W=None):
 
     # TODO: fill in the code to compute mu and sigma!
     # ==========================
-    
+    for jdx, k in enumerate(classes):
+        idx = np.where(labels==k)[0]
+        Xk = X[idx,:] # Get the x for the class labels. Vectors are rows.
+        Nk = idx.shape[0]
+        mu[jdx,:] = np.sum(Xk, axis=0)/Nk    #float division?
+        sigma[jdx,:,:] = np.diag(np.sum(Xk - mu[jdx,:], axis=0))/Nk
     # ==========================
-
     return mu, sigma
 
 # in:      X - N x d matrix of M data points
